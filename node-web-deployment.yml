@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-web-deployment
+  labels:
+    app: node-web
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: node-web
+      labels:
+        app: node-web
+    spec:
+      containers:
+      - name: node-web
+        image: vishaldwivedi13/node-web-app:latest
+        imagePullPolicy: IfNotPresent
+      restartPolicy: always
+  selectors:
+    matchLabels:
+      app: node-web
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-web-service
+spec:
+  selector:
+    app: node-web
+  ports:
+    - port: 8080
+  type: NodePort
